@@ -1,0 +1,155 @@
+/*input
+
+*/
+
+#include<bits/stdc++.h>
+#define dbg(x) 					cout << #x << " = " << x << '\n'
+
+using namespace std;
+
+struct Node
+{
+	int data;
+	struct Node* left = NULL;
+	struct Node* right = NULL;
+};
+struct Node* r1;
+
+	
+bool find(int x, struct Node*curr)
+{
+
+	if(!curr) return 0;
+	else if(curr->data == x) 
+	{
+		cout<<x<<" found.\n";
+	}
+	else if(curr->left == NULL && curr->right == NULL)
+	{
+		cout<<x<<" is not present in BST"<<endl;
+		return 0;
+	}
+	else if(curr->data > x) 
+	{
+		return find(x,curr->left);
+	}
+	else if (curr->data < x)
+	{
+		return find(x,curr->right);
+	}
+}
+
+void insert(int x, struct Node* newNode)
+{
+	struct Node* curr = r1;
+	if(curr == NULL)
+	{
+		r1 = newNode;
+		cout<<x<<" is the Root"<<endl;
+		return;
+	}
+	else
+	{
+		while(curr != NULL)
+		{
+			if(x < curr->data)
+			{
+				if(curr->left == NULL)
+				{
+					curr->left = newNode;
+				}
+				curr = curr->left;
+			}
+			else if(x > curr->data)
+			{
+				if(curr->right == NULL) 
+				{
+					curr->right = newNode;
+				}
+				curr = curr->right;
+			}
+			else break;
+		}
+		cout<<x<<" is inserted"<<endl;
+	}
+	cout<<"Finished\n";
+}
+
+void delete(int x,struct Node* curr)
+{
+	if(!curr) 
+	{
+		cout<<"Empty Tree"<<endl;
+		return;
+	}
+	if(curr->data > x) delete(x,curr->left);
+	else if(curr->data < x) delete(x,curr->right);
+	else if(curr->data == x)
+	{
+	
+		if(curr->left != NULL && curr->right != NULL)
+		{
+			struct Node* mx = maxNode(curr->left);
+			curr->data = mx->data;
+			root->left = delete(curr->data, curr->left);
+			
+		}
+		else 
+		{
+			
+		}
+	}
+	else
+	{
+		cout<<x<<" is not present in the BST\n";
+		return;
+	}
+}
+
+void inorder(struct Node* curr)
+{
+	
+	if(curr==NULL) return;
+	if(curr->left != NULL) inorder(curr->left);
+	cout<<curr->data<<"  ";
+	if(curr->right != NULL) inorder(curr->right);
+}
+
+
+signed main()
+{
+	int n,t;
+	while(1)
+	{
+		cin>>n;
+		if(n==1) 
+		{
+			cout<<"Number to Insert: ";
+			cin>>t;
+			struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+			newNode->left = NULL;
+			newNode->right = NULL;
+			newNode->data = t;
+			insert(t,newNode);
+		}
+		else if(n==2)
+		{
+			cout<<"Number to Find: ";
+			cin>>t;
+			struct Node* curr = r1;
+			find(t, curr);
+		}
+		else if(n==3)
+		{
+			struct Node* curr = r1;
+			inorder(curr);
+			cout<<"\nInorder Traversal Finished\n";
+		}
+		else if(n==4)
+		{
+		}
+		else break;	
+	}
+
+	return 0;
+}
